@@ -44,12 +44,14 @@ export default function Chat({ user }) {
   };
 
   return (
-    <div>
+    <div className="chat-screen">
       <h3>Chat App</h3>
       <div className="border p-3 mb-2" style={{ height: "300px", overflowY: "scroll" }}>
         {messages.map((m, i) => (
           <div key={i} className={m.uid === user.uid ? "text-end" : "text-start"}>
+           <span>
             <b>{m.email}</b>: {m.text}
+            </span> 
           </div>
         ))}
       </div>
