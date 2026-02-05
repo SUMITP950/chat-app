@@ -5,14 +5,14 @@ export const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
   const [count, setCount] = useState(0);
   const [theme, setTheme] = useState('light');
-
+const [user, setUser] = useState(null);
   const toggleTheme = () => {
-    setCount (prev => (prev +10));
-    setTheme(prev => (prev ==='light'));
+  auth.onAuthStateChanged(u => setUser(u));
   };
 
+
   return (
-    <ThemeContext.Provider value={{ theme,count, toggleTheme }}>
+    <ThemeContext.Provider value={{ user, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
