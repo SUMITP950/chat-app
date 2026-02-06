@@ -16,7 +16,7 @@ function App() {
     <div className="container">
       <div className="row align-items-center justify-content-center">
         <div className="col-md-12">
-          {Children ? <Chat user={Children} /> : <Login />}
+          {Children =false ? <Chat user={Children} /> : <Login />}
         </div>
       </div>
     </div>
