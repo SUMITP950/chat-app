@@ -8,11 +8,11 @@ export default function Chat({ user }) {
 
   useEffect(() => {
     const q = query(collection(db, "messages"), orderBy("time"));
-
+ 
     const unsub = onSnapshot(q, snap => {
       setMessages(snap.docs.map(doc => doc.data()));
     });
-    console.log(messages)
+  
     return () => unsub();
   }, []);
   // useEffect(() => {
@@ -48,7 +48,7 @@ export default function Chat({ user }) {
       <h3>Chat App</h3>
       <div className="border p-3 mb-2" style={{ height: "300px", overflowY: "scroll" }}>
         {messages.map((m, i) => (
-          <div key={i} className={m.uid === user.uid ? "text-end" : "text-start"}>
+          <div key={i} className={m.uid === user.uid ? "text-start" : "text-end"}>
            <span>
             <b>{m.email}</b>: {m.text}
             </span> 
