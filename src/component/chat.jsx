@@ -1,36 +1,23 @@
-import { useEffect, useState } from "react";
+import { useContext ,useEffect, useState } from "react";
 import { db, auth } from "./fireBaseConfig"
 import { collection, addDoc, query, orderBy, onSnapshot } from "firebase/firestore";
+import { AuthContext } from "../AuthContext";
 
-export default function Chat({ user }) {
+export default function Chat() {
   const [msg, setMsg] = useState("");
   const [messages, setMessages] = useState([]);
 
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
     const q = query(collection(db, "messages"), orderBy("time"));
- 
-    const unsub = onSnapshot(q, snap => {
+
+    const unsub = onSnapshot(q, (snap) => {
       setMessages(snap.docs.map(doc => doc.data()));
     });
-  
+
     return () => unsub();
   }, []);
-  // useEffect(() => {
-  //   const q = query(collection(db, "messages"), orderBy("time"));
-
-  //   const unsub = onSnapshot(q, (querySnapshot) => {
-  //     const arr = [];
-
-  //     querySnapshot.forEach((doc) => {
-  //       arr.push(doc.data());
-  //     });
-
-  //     setMessages(arr);
-  //   });
-
-  //   return () => unsub();
-  // }, []);
-
 
 
   const sendMessage = async () => {

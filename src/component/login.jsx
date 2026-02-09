@@ -19,7 +19,7 @@ function Login() {
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
 
-  const showError = (msg) => {
+  const showToastMessage = (msg) => {
     setToastMsg(msg);
     setShowToast(true);
   };
@@ -27,83 +27,90 @@ function Login() {
   const isValidEmail = (email) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
+  // SIGN UP
   const handleSignup = () => {
-    if (!isValidEmail(signupEmail)) {
-      return showError("Enter a valid email");
-    }
     if (!signupEmail || !signupPassword) {
-      return showError("All fields are required");
+      return showToastMessage("All fields are required");
     }
-    
+    if (!isValidEmail(signupEmail)) {
+      return showToastMessage("Enter a valid email");
+    }
     if (signupPassword.length < 6) {
-      return showError("Password must be at least 6 characters");
+      return showToastMessage("Password must be at least 6 characters");
     }
 
     createUserWithEmailAndPassword(auth, signupEmail, signupPassword)
-      .then(() => showError("User Registered!"))
-      .catch((err) => showError(err.message));
+      .then(() => showToastMessage("User Registered Successfully"))
+      .catch((err) => showToastMessage(err.message));
   };
 
+  // SIGN IN
   const handleSignin = () => {
     if (!loginEmail || !loginPassword) {
-      return showError("All fields are required");
+      return showToastMessage("All fields are required");
     }
     if (!isValidEmail(loginEmail)) {
-      return showError("Enter a valid email");
+      return showToastMessage("Enter a valid email");
     }
 
     signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-      .then(() => showError("Login Success!"))
-      .catch((err) => showError(err.message));
+      .then(() => showToastMessage("Login Successful"))
+      .catch((err) => showToastMessage(err.message));
   };
 
   return (
-    <div className="loginPage d-flex">
-      {/* SIGNUP */}
-      <div className="SignUp">
-        <h2>Sign Up</h2>
-        <div className="form-group">
-          <input
-            className="form-control"
-            placeholder="Email"
-            value={signupEmail}
-            onChange={(e) => setSignupEmail(e.target.value)}
-          />
-          <input
-            className="form-control"
-            type="password"
-            placeholder="Password"
-            value={signupPassword}
-            onChange={(e) => setSignupPassword(e.target.value)}
-          />
-          <button className="btn btn-outline-secondary" onClick={handleSignup}>
-            Sign Up
-          </button>
+    <>
+      
+        {/* SIGN UP */}
+        <div className="col-md-6">
+          <div className="SignUp">
+            <h2>Sign Up</h2>
+            <div className="form-group">
+              <input
+                className="form-control"
+                placeholder="Email"
+                value={signupEmail}
+                onChange={(e) => setSignupEmail(e.target.value)}
+              />
+              <input
+                className="form-control"
+                type="password"
+                placeholder="Password"
+                value={signupPassword}
+                onChange={(e) => setSignupPassword(e.target.value)}
+              />
+              <button className="btn btn-outline-secondary" onClick={handleSignup}>
+                Sign Up
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* SIGNIN */}
-      <div className="signIn">
-        <h2>Sign In</h2>
-        <div className="form-group">
-          <input
-            className="form-control"
-            placeholder="Email"
-            value={loginEmail}
-            onChange={(e) => setLoginEmail(e.target.value)}
-          />
-          <input
-            className="form-control"
-            type="password"
-            placeholder="Password"
-            value={loginPassword}
-            onChange={(e) => setLoginPassword(e.target.value)}
-          />
-          <button className="btn btn-outline-secondary" onClick={handleSignin}>
-            Login
-          </button>
+        {/* SIGN IN */}
+        <div className="col-md-6">
+          <div className="signIn">
+            <h2>Sign In</h2>
+            <div className="form-group">
+              <input
+                className="form-control"
+                placeholder="Email"
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+              />
+              <input
+                className="form-control"
+                type="password"
+                placeholder="Password"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+              />
+              <button className="btn btn-outline-secondary" onClick={handleSignin}>
+                Login
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+   
 
       {/* TOAST */}
       <ErrorToast
@@ -111,7 +118,7 @@ function Login() {
         message={toastMsg}
         onClose={() => setShowToast(false)}
       />
-    </div>
+    </>
   );
 }
 
